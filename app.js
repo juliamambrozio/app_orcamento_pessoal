@@ -9,6 +9,33 @@ class Despesa{
     }
 }
 
+class Bd{
+
+    constructor(){
+        let id = localStorage.getItem('id')
+
+        if(id === null){
+            localStorage.setItem('id', 0) //criando o ID para cada elemento
+        }
+    }
+
+    getProximoId(){
+        let proximoId = localStorage.getItem('id') //get: pega dados
+        return parseInt(proximoId) + 1
+    }
+
+    gravar(d){
+        let id = this.getProximoId()//sempre que for executado, irá pegar a function "proximoId" e atualizará o próximo Id
+
+        //insiro o objeto que eu quero, recebo o objeto literal e preciso converter para JSON
+        localStorage.setItem(id, JSON.stringify(d)) //set: envia dados
+
+         localStorage.setItem('id', id)
+    }
+}
+
+let bd = new Bd()
+
 
 function cadastrarDespesa(){
     let ano =  document.getElementById('ano')
@@ -25,11 +52,9 @@ function cadastrarDespesa(){
         tipo.value, 
         descricao.value, 
         valor.value)
-        gravar(despesa)
+
+        bd.gravar(despesa)
 }
 
-function gravar(d){
-    //insiro o objeto que eu quero, recebo o objeto literal e preciso converter para JSON
-    localStorage.setItem('despesa', JSON.stringify(d))
-}
+
 
