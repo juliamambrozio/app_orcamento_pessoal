@@ -64,16 +64,14 @@ function cadastrarDespesa(){
         valor.value)
 
         if(despesa.validarDados()){
-            //bd.gravar(despesa)
+            bd.gravar(despesa)
             //dialog sucesso
-            console.log('Dados válidos')
+            $('#registraDespesa').modal('show')
         } else{
             //dialog de erro
-            console.log('Dados inválidos')
+            $('#registraDespesa').modal('show') //exibindo o modal caso dê erro
         }
-
         bd.gravar(despesa)
-
 }
 
 
