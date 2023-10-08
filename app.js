@@ -44,7 +44,7 @@ class Bd{
     }
     recuperarTodosRegistros(){ //evento será feito através do onload da página "consulta"
 
-        //array de desésas
+        //array de despesas
         let despesas = Array()
        let id = localStorage.getItem('id')
 
@@ -88,10 +88,11 @@ function cadastrarDespesa(){
         valor.value)
 
         if(despesa.validarDados()){
-            //bd.gravar(despesa)
+            bd.gravar(despesa)
             //dialog sucesso
 
             document.getElementById('modal_titulo').innerHTML = 'Registrdo inserido com sucesso.'
+            document.getElementById('modal_conteudo').innerHTML = 'Despesa cadastrada com sucesso.'
             document.getElementById('modal_titulo_div').className = 'modal-header text-success'
             document.getElementById('modal_btn').innerHTML = 'Voltar'
             document.getElementById('modal_btn').className = 'btn btn-success '
@@ -108,13 +109,42 @@ function cadastrarDespesa(){
 
             $('#registraDespesa').modal('show') //exibindo o modal caso dê erro
         }
-        bd.gravar(despesa)
 }
 
 function carregaListaDespesas(){
     let despesas = Array() //para listar em formato de Array
     despesas = bd.recuperarTodosRegistros()
-    console.log(despesas)
+
+    //selecionando o elemento tbody da tabela
+    let listaDespesas = document.getElementById('listaDespesas')
+
+    //percorrer o Array desepsas, listando cada elemento de forma dinâmica
+    despesas.forEach(function(d){
+       
+        //criando a linha (tr)
+        let linha = listaDespesas.insertRow() //insert row = acrescentando linha (tr)
+
+        //criar as colunas (td)
+        linha.insertCell(0).innerHTML = `${d.dia}/${d.mes}/${d.ano} `//vai de 0 até x
+        
+        //ajustar tipo, sobrepondo seu valor
+        switch(d.tipo){ //idêntico
+            case '1': d.tipo = 'Alimentação'
+            break
+            case '2': d.tipo = 'Educação'
+            break
+            case '3': d.tipo = 'Lazer'
+            break
+            case '4': d.tipo = 'Saúde'
+            break
+            case '5': d.tipo = 'Transporte'
+            break
+        }
+        linha.insertCell(1).innerHTML = d.tipo
+
+        linha.insertCell(2).innerHTML = d.descricao
+        linha.insertCell(3).innerHTML = d.valor  
+    }) //forEach: percorrendo cada elemento
 }
 
 
