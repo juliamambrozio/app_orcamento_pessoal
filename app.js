@@ -64,7 +64,8 @@ class Bd{
         return despesas //encerrando função e retornando seu valor para onde foi chamado
        
     }
-    pesquisar(despesa){
+
+    pesquisar(despesa){ //despesa = ao que está sendo inserido no campo
         let despesasFiltradas = Array()
 
         despesasFiltradas = this.recuperarTodosRegistros()
@@ -95,6 +96,8 @@ class Bd{
         if(despesa.valor != ''){
             despesasFiltradas = despesasFiltradas.filter(d => d.valor == despesa.valor) 
         }
+
+        return despesasFiltradas
         
 
     }
@@ -152,14 +155,16 @@ function cadastrarDespesa(){
         }
 }
 
-function carregaListaDespesas(){
-    let despesas = Array() //para listar em formato de Array
-    despesas = bd.recuperarTodosRegistros()
+function carregaListaDespesas(despesas = Array(), filtro = false){ //exibe todos os registros no onload em formato de Array
+    if(despesas.length == 0 && filtro == false ){ //se possuir valor, ele irá exibir
+        despesas = bd.recuperarTodosRegistros()
 
+    }
     //selecionando o elemento tbody da tabela
     let listaDespesas = document.getElementById('listaDespesas')
+    listaDespesas.innerHTML = '' //atribuindo valor vazio ao tbody
 
-    //percorrer o Array desepsas, listando cada elemento de forma dinâmica
+    //percorrer o Array despesas, listando cada elemento de forma dinâmica
     despesas.forEach(function(d){
        
         //criando a linha (tr)
@@ -198,8 +203,9 @@ function pesquisarDespesa(){
 
     let despesa = new Despesa(ano, mes, dia, tipo, descricao, valor)
 
-    bd.pesquisar(despesa)
-    
+    let despesas = bd.pesquisar(despesa)
+
+    this.carregaListaDespesas(despesas, true)
 }
 
 
