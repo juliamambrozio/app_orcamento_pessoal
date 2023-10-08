@@ -46,10 +46,10 @@ class Bd{
 
         //array de despesas
         let despesas = Array()
-       let id = localStorage.getItem('id')
+        let id = localStorage.getItem('id')
 
         //Recuperar todas as despesas cadastradas em LocalStorage
-       for(let i = 1; i <= id; i++){ //verificando se o i é maior ou igual ao id que está no LocalStorage
+        for(let i = 1; i <= id; i++){ //verificando se o i é maior ou igual ao id que está no LocalStorage
 
         //recuperar a despesa
         let despesa = JSON.parse(localStorage.getItem(i)) //JSON.parse = convertendo para objeto literal, getItem = i, pegando todos os elementos do LocalStorage
@@ -61,11 +61,42 @@ class Bd{
         }
         despesas.push(despesa) //cada interação, irá acrescentar mais despesas
        }
-       return despesas //encerrando função e retornando seu valor para onde foi chamado
+        return despesas //encerrando função e retornando seu valor para onde foi chamado
        
     }
     pesquisar(despesa){
-        console.log(despesa)
+        let despesasFiltradas = Array()
+
+        despesasFiltradas = this.recuperarTodosRegistros()
+       
+        //ano
+        if(despesa.ano != ''){
+            despesasFiltradas = despesasFiltradas.filter(d => d.ano == despesa.ano) //verifica se os objetos literais são iguais aos que estão no LocalStorage
+            //Não consegue editar o array original
+        }
+        
+        //mes
+        if(despesa.mes != ''){
+            despesasFiltradas = despesasFiltradas.filter(d => d.mes == despesa.mes) 
+        }
+        //dia
+        if(despesa.dia != ''){
+            despesasFiltradas = despesasFiltradas.filter(d => d.dia == despesa.dia) 
+        }
+        //tipo
+        if(despesa.tipo != ''){
+            despesasFiltradas = despesasFiltradas.filter(d => d.tipo == despesa.tipo) 
+        }
+        //descrição
+        if(despesa.descricao != ''){
+            despesasFiltradas = despesasFiltradas.filter(d => d.descricao == despesa.descricao) 
+        }
+        //valor
+        if(despesa.valor != ''){
+            despesasFiltradas = despesasFiltradas.filter(d => d.valor == despesa.valor) 
+        }
+        
+
     }
     
 }
