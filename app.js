@@ -90,6 +90,13 @@ function cadastrarDespesa(){
         if(despesa.validarDados()){
             bd.gravar(despesa)
             //dialog sucesso
+            ano.value = ''
+            mes.value = ''
+            dia.value = ''
+            tipo.value = ''
+            descricao.value = ''
+            valor.value = ''
+
 
             document.getElementById('modal_titulo').innerHTML = 'Registrdo inserido com sucesso.'
             document.getElementById('modal_conteudo').innerHTML = 'Despesa cadastrada com sucesso.'
