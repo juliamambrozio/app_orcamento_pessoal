@@ -59,6 +59,7 @@ class Bd{
         if(despesa === null){
             continue //avance para a interação seguinte
         }
+        despesa.id = i //inlucindo o atributo id para a remoção
         despesas.push(despesa) //cada interação, irá acrescentar mais despesas
        }
         return despesas //encerrando função e retornando seu valor para onde foi chamado
@@ -100,6 +101,10 @@ class Bd{
         return despesasFiltradas
         
 
+    }
+
+    remover(id){
+        localStorage.removeItem(id)
     }
     
 }
@@ -190,6 +195,28 @@ function carregaListaDespesas(despesas = Array(), filtro = false){ //exibe todos
 
         linha.insertCell(2).innerHTML = d.descricao
         linha.insertCell(3).innerHTML = d.valor  
+
+        //criar o botão de exclusão
+
+        let btn = document.createElement('button')
+        btn.className = 'btn btn-danger' //colocando class do BootStrap
+        btn.innerHTML = 'X' //colocando ícone
+        btn.id =`id_despesa_${d.id}` //recuperando o id daquele elemento HTML
+
+        btn.onclick = function(){
+            //remover despesa   
+            let id = this.id.replace('id_despesa_', '') //apagando o "id_despesa"
+
+            bd.remover(id) //quando for executado, ele vai chamar a função e vai remover de acordo com o id
+
+            alert('Removido!')
+
+            window.location.reload()
+
+        }
+
+        linha.insertCell(4).append(btn) //criando quarta coluna e atribuindo o botão à ela
+
     }) //forEach: percorrendo cada elemento
 }
 
