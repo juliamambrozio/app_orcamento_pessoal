@@ -9,14 +9,14 @@ class Despesa{
     }
 
     validarDados(){
-        for(let i in this){ //pega todas os atributos e armazena dentro de "i"
+        for(let i in this) { //pega todas os atributos e armazena dentro de "i"
             if(this[i] == undefined || this[i] == '' || this[i] == null) {
             //this[i] mesma coisa que: this.atributo
             return false
-            }
         }
-        return true
     }
+    return true
+}
 }
 
 class Bd{
@@ -42,7 +42,31 @@ class Bd{
 
          localStorage.setItem('id', id)
     }
+    recuperarTodosRegistros(){ //evento será feito através do onload da página "consulta"
+
+        //array de desésas
+        let despesas = Array()
+       let id = localStorage.getItem('id')
+
+        //Recuperar todas as despesas cadastradas em LocalStorage
+       for(let i = 1; i <= id; i++){ //verificando se o i é maior ou igual ao id que está no LocalStorage
+
+        //recuperar a despesa
+        let despesa = JSON.parse(localStorage.getItem(i)) //JSON.parse = convertendo para objeto literal, getItem = i, pegando todos os elementos do LocalStorage
+
+
+        //verificar se existe a possibilidade de índices que foram removidos
+        if(despesa === null){
+            continue //avance para a interação seguinte
+        }
+        despesas.push(despesa) //cada interação, irá acrescentar mais despesas
+       }
+       return despesas //encerrando função e retornando seu valor para onde foi chamado
+       
+    }
+    
 }
+
 
 let bd = new Bd()
 
@@ -64,7 +88,7 @@ function cadastrarDespesa(){
         valor.value)
 
         if(despesa.validarDados()){
-            bd.gravar(despesa)
+            //bd.gravar(despesa)
             //dialog sucesso
 
             document.getElementById('modal_titulo').innerHTML = 'Registrdo inserido com sucesso.'
@@ -85,6 +109,12 @@ function cadastrarDespesa(){
             $('#registraDespesa').modal('show') //exibindo o modal caso dê erro
         }
         bd.gravar(despesa)
+}
+
+function carregaListaDespesas(){
+    let despesas = Array() //para listar em formato de Array
+    despesas = bd.recuperarTodosRegistros()
+    console.log(despesas)
 }
 
 
